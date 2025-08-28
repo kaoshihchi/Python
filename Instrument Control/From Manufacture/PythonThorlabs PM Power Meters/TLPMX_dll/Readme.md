@@ -1,48 +1,72 @@
-## Included Example
+📌 1. 範例用途
 
-### Thorlabs PMxxx Power Meters
-In this folder you can find sample codes show how you can control a Thorlabs PMxxx Power Meter in Python using TLPMx driver dll. 
-They can be used with Thorlabs power meters which are compatible with the TLPMX drivers.
-  
-The sample codes in this folder all use the ctypes library to load the DLL TLPMX file for these power meters. 
-The ctypes library needs to be installed separately on the computer.
-- **TLPMX.py:** This file contains the class definition of the class TLPMX. 
-It includes the definitions of methods and constants which are used by this class.
+這個資料夾提供 Python 範例程式，教你怎麼用 TLPMx 驅動 DLL 來控制 Thorlabs 的 PMxxx 光功率計。
 
-Please note that the TLPMX DLL files are loaded in the "LoadLibrary" commands in lines 239 and 241. 
-Depending on the used programming environment and the system settings, these lines might need to be changed slightly 
-to make sure that Python finds these files.
+適用於 支援 TLPMx 驅動的 Power Meter 型號。
 
-This line will look for the DLL file in the current folder :
+範例程式全部是用 Python 的 ctypes 函式庫來載入 DLL。
 
-```
-self.dll = cdll.LoadLibrary(".\TLPMX_64.dll")
-```
+📌 2. 必要條件
 
-This line will look for the DLL file in the system folders:
+你的電腦需要安裝 ctypes (Python 標準庫通常已內建)。
 
-```
+需要 TLPMX DLL 檔案，Python 程式會用 LoadLibrary 來載入它。
+
+📌 3. 載入 DLL 的三種方式
+
+程式裡有三種 cdll.LoadLibrary(...) 寫法，代表不同的 DLL 搜尋位置：
+
+當前資料夾（例如 DLL 和程式放在一起）
+
+self.dll = cdll.LoadLibrary(".\\TLPMX_64.dll")
+
+
+系統環境路徑（DLL 已經安裝在系統 PATH 或 Windows System32 之類目錄）
+
 self.dll = cdll.LoadLibrary("TLPMX_64.dll")
-```
 
-This line will look for the DLL file at the given path:
 
-```
-self.dll = cdll.LoadLibrary("C:\Program Files\IVI Foundation\VISA\Win64\Bin\TLPMX_64.dll")
-```
+指定絕對路徑（例如驅動安裝在 C:\Program Files\...）
 
-- **PMxxx using ctypes - Python 3.py:** It connects to the power meter, makes the necessary settings and then 
-                                        reads and displays power values.
+self.dll = cdll.LoadLibrary("C:\\Program Files\\IVI Foundation\\VISA\\Win64\\Bin\\TLPMX_64.dll")
 
-- **PM5020 using ctypes - Python 3.py:** It connects to the PM5020 dual channel power meter, makes the necessary 
-                                        settings and then reads and displays power values. 
 
-- **PM103E_ctypes_connectwithNetSearch:** Find and connect to the PM103E setting a network mask
+👉 你要根據自己 DLL 安裝位置修改。
 
-- **PM103E_ctypes_connectwithIP:** Connect to PM103E using the IP of the powermeter
+📌 4. 檔案內容
 
-Additional Python example codes are included in the installation package of the "Optical Power Monitor" software. You can find these codes in this folder after the installation:
+TLPMX.py
 
-```
+定義一個 TLPMX 類別
+
+裡面有這些儀器控制用的「方法」和「常數」
+
+是核心的 DLL 封裝 (wrapper)。
+
+PMxxx using ctypes - Python 3.py
+
+範例程式：連接到一般 PMxxx 功率計
+
+設定量測參數
+
+讀取並顯示功率值。
+
+PM5020 using ctypes - Python 3.py
+
+範例程式：連接到 PM5020 雙通道功率計
+
+設定參數後，讀取並顯示功率值。
+
+PM103E_ctypes_connectwithNetSearch.py
+
+範例：透過 網路搜尋 (network mask) 找到 PM103E 並連接。
+
+PM103E_ctypes_connectwithIP.py
+
+範例：直接用 IP 位址 連接 PM103E。
+
+📌 5. 更多範例程式
+
+除了這個 repo 的程式，安裝 Thorlabs 的 Optical Power Monitor 軟體後，也會在這裡附帶 Python 範例：
+
 C:\Program Files (x86)\IVI Foundation\VISA\WinNT\TLPMX\Examples\Python
-```
